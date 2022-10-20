@@ -1,0 +1,4 @@
+git.sr.ht/~geb/opt v0.0.0-20220627180516-52214b5b84a1 h1:bmje0IdPzrY5nX6fAx8KuHP5G8EP4XMedMFcrssfJXc=
+git.sr.ht/~geb/opt v0.0.0-20220627180516-52214b5b84a1/go.mod h1:T5QFtG9s8i/kW5pDVCke6Mt2WmElJCIfTL1HMdpP7Rk=
+github.com/bendahl/uinput v1.6.0 h1:fM6r3OSC17rHh758mizKjSBuqi+XinhiGd4N3pWvZiI=
+github.com/bendahl/uinput v1.6.0/go.mod h1:Np7w3DINc9wB83p12fTAM3DPPhFnAKP0WTXRqCQJ6Z8=
