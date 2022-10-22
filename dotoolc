@@ -21,4 +21,4 @@ if ! fifo_being_read "$p"; then
 	echo 'dotoolc: dotoold is not connected' > /dev/stderr
 	exit 1
 fi
-cat > "$p"
+exec cat > "$p"
