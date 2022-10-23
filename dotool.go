@@ -10,6 +10,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 	"unicode"
 )
 
@@ -162,6 +163,8 @@ The commands are:
 	scroll NUMBER  (where NUMBER is the amount down/up if positive/negative)
 	mouseto X Y  (where X and Y are percentages between 0.0 and 1.0)
 	mousemove X Y  (where X and Y are the number of pixels to move)
+	keydelay MILLISECONDS
+	typedelay MILLISECONDS
 
 Example: echo "key h i shift+1" | dotool
 
@@ -257,6 +260,9 @@ func main() {
 	}
 	defer mouse.Close()
 
+	keydelay := time.Duration(0)
+	typedelay := time.Duration(0)
+
 	sc := bufio.NewScanner(os.Stdin)
 	for sc.Scan() {
 		text := strings.TrimLeftFunc(sc.Text(), unicode.IsSpace)
@@ -265,6 +271,7 @@ func main() {
 		}
 		if s, ok := cutCmd(text, "key"); ok {
 			for _, field := range strings.Fields(s) {
+				time.Sleep(keydelay)
 				if chord, err := parseChord(field); err == nil {
 					chord.Press(keyboard)
 				} else {
@@ -273,6 +280,7 @@ func main() {
 			}
 		} else if s, ok := cutCmd(text, "keydown"); ok {
 			for _, field := range strings.Fields(s) {
+				time.Sleep(keydelay)
 				if chord, err := parseChord(field); err == nil {
 					chord.KeyDown(keyboard)
 				} else {
@@ -281,20 +289,38 @@ func main() {
 			}
 		} else if s, ok := cutCmd(text, "keyup"); ok {
 			for _, field := range strings.Fields(s) {
+				time.Sleep(keydelay)
 				if chord, err := parseChord(field); err == nil {
 					chord.KeyUp(keyboard)
 				} else {
 					warn(err.Error())
 				}
 			}
+		} else if s, ok := cutCmd(text, "keydelay"); ok {
+			var d float64
+			_, err := fmt.Sscanf(s + "\n", "%f\n", &d)
+			if err == nil {
+				keydelay = time.Duration(d)*time.Millisecond
+			} else {
+				warn("invalid delay: " + sc.Text())
+			}
 		} else if s, ok := cutCmd(text, "type"); ok {
 			for _, r := range s {
+				time.Sleep(typedelay)
 				if chord, ok := runeChords[unicode.ToLower(r)]; ok {
 					if unicode.IsUpper(r) {
 						chord.Shift = true
 					}
 					chord.Press(keyboard)
 				}
+			}
+		} else if s, ok := cutCmd(text, "typedelay"); ok {
+			var d float64
+			_, err := fmt.Sscanf(s + "\n", "%f\n", &d)
+			if err == nil {
+				typedelay = time.Duration(d)*time.Millisecond
+			} else {
+				warn("invalid delay: " + sc.Text())
 			}
 		} else if s, ok := cutCmd(text, "click"); ok {
 			for _, button := range strings.Fields(s) {
