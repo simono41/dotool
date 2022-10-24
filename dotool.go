@@ -168,6 +168,10 @@ The commands are:
 
 Example: echo "key h i shift+1" | dotool
 
+dotool is installed with a udev rule to allow users in group input to run
+it without root permissions. You can make it effective without rebooting by
+running: sudo udevadm trigger
+
 The keys are those used by Linux, but can also be specified using X11 names
 prefixed with x: like x:exclam, as well as their Linux keycode like k:30.
 They are case insensitive, except uppercase character keys also simulate shift.

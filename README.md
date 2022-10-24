@@ -5,18 +5,13 @@ It works everywhere on Linux, including in X11, Wayland and TTYs.
 
 It takes about half a second to register the virtual device, but it can be kept using the daemon.
 
-## Install
+## Install From Source
 
-Run `go build` with go (>=1.19) and copy `dotool`, `dotoold` and `dotoolc` into your PATH.
+With go (>=1.19) run `sudo ./install.sh`.
 
 ## Usage
 
-dotool will usually require root permissions unless you add a udev rule for uinput.
-You could run these commands to add a rule for yourself and make it effective:
-```
-echo KERNEL==\"uinput\", GROUP=\"$USER\", MODE:=\"0660\" | sudo tee /etc/udev/rules.d/99-dotool-$USER.rules
-sudo udevadm trigger
-```
+dotool will require root permissions unless you are in group input.
 
 This greets the world:
 `echo 'type Sup, Lads!' | dotool`
