@@ -19,8 +19,7 @@ if fifo_being_read "$p" 2> /dev/null; then
 fi
 
 rm -rf "$p" || exit 1
-trap 'rm -rf "$p"; trap - EXIT; exit' EXIT INT TERM HUP
+trap 'rm -rf "$p"; pkill -P $$; trap - EXIT; exit' EXIT INT TERM HUP
 mkfifo -m 660 "$p" || exit 1
 dotool <> "$p" &
 wait
-pkill -P $$
