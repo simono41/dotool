@@ -3,7 +3,7 @@ if [ $# != 0 ]; then
 	echo 'dotoolc writes its stdin to the pipe being read by dotoold.
 dotoolc will exit immediately if the pipe is not being read.
 The path of the pipe is $DOTOOL_PIPE else /tmp/dotool_pipe.
-' > /dev/stderr
+' >&2
 	[ "$1" = -h ] || [ "$1" = --help ]; exit
 fi
 
@@ -18,7 +18,7 @@ if [ -p "$p" ] && ! [ -w "$p" ]; then
 	exit 1
 fi
 if ! fifo_being_read "$p"; then
-	echo 'dotoolc: dotoold is not connected' > /dev/stderr
+	echo 'dotoolc: dotoold is not connected' >&2
 	exit 1
 fi
 exec cat > "$p"

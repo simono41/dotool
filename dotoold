@@ -3,7 +3,7 @@ if [ $# != 0 ]; then
 	echo 'dotoold runs dotool reading from a pipe for dotoolc to write to.
 dotoold will exit immediately if the pipe is already being read.
 The path used for the pipe is $DOTOOL_PIPE else /tmp/dotool_pipe.
-' > /dev/stderr
+' >&2
 	[ "$1" = -h ] || [ "$1" = --help ]; exit
 fi
 
@@ -14,7 +14,7 @@ fifo_being_read(){
 p="${DOTOOL_PIPE:-/tmp/dotool_pipe}"
 
 if fifo_being_read "$p" 2> /dev/null; then
-	echo 'dotoold: another instance is already connected' > /dev/stderr
+	echo 'dotoold: another instance is already connected' >&2
 	exit 1
 fi
 
