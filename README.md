@@ -32,3 +32,9 @@ echo 'type speedy' | dotoolc
 ## Contact
 
 You can ask a question or send a patch by composing an email to [~geb/public-inbox@lists.sr.ht](https://lists.sr.ht/~geb/public-inbox).
+
+## License
+
+GPLv3 only, see [LICENSE](./LICENSE).
+
+Copyright (c) 2022 John Gebbie
