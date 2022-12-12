@@ -3,7 +3,8 @@
 dotool reads commands from stdin and simulates keyboard and mouse events.
 It works everywhere on Linux, including in X11, Wayland and TTYs.
 
-It takes about half a second to register the virtual device, but it can be kept using the daemon.
+It takes about half a second to register the virtual device, but it can be
+kept using the daemon.
 
 ## Install From Source
 
@@ -22,7 +23,8 @@ This screams for three seconds:
 This drags the mouse:
 `printf %s\\n 'buttondown left' 'mousemove 0 100' 'buttonup left' | dotool`
 
-The daemon and client, `dotoold` and `dotoolc`, can used to keep a persistent virtual device for a quicker initial response:
+The daemon and client, `dotoold` and `dotoolc`, can used to keep a persistent
+virtual device for a quicker initial response:
 ```
 dotoold &
 echo 'type super' | dotoolc
@@ -31,7 +33,12 @@ echo 'type speedy' | dotoolc
 
 ## Contact
 
-You can ask a question or send a patch by composing an email to [~geb/public-inbox@lists.sr.ht](https://lists.sr.ht/~geb/public-inbox).
+You can send questions, thoughts or patches by composing an email to
+[~geb/public-inbox@lists.sr.ht](https://lists.sr.ht/~geb/public-inbox).
+
+## Support Me
+
+[Thank you!](https://liberapay.com/geb)
 
 ## License
 
