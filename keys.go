@@ -528,7 +528,6 @@ var xKeysShifted = map[string]int{
 	"parenright": uinput.Key0,
 	"underscore": uinput.KeyMinus,
 	"plus": uinput.KeyEqual,
-	"backspace": uinput.KeyBackspace,
 	"iso_left_tab": uinput.KeyTab,
 	"q": uinput.KeyQ,
 	"w": uinput.KeyW,

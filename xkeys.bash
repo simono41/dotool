@@ -36,7 +36,7 @@ echo 'var xKeysShifted = map[string]int{'
 {
 	paste -d ' ' <(xmodmap -pke | sed '1 d; s/.*= /"/; /.*=/ d; s/\S* /"/; s/ .*/":/' | sed '/^"XF86Eject"/ { N; s/.*\n// }') \
 		<(go doc uinput.keyesc | sed '/Key/ !d; s/^\s*/uinput./; s/ .*/,/' | align) | sed '/^"NoSymbol"/ d; /^\S*_[LR]"/ d' |
-		# Remove duplicate keys
-		sed '/^"KP_Decimal":.*Kpcomma/ d; /\<Key102Nd\>/ d'
+		# Remove backspace and duplicate keys
+		sed '/^"BackSpace"/ d; /^"KP_Decimal":.*Kpcomma/ d; /\<Key102Nd\>/ d'
 } | sed 's/^".*"/\L&/; s/^/\t/'
 echo '}'
