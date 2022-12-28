@@ -196,12 +196,15 @@ func cutCmd(s, cmd string) (string, bool) {
 func main() {
 	{
 		optset := opt.NewOptionSet()
-		help := func(bool) error {
+
+		optset.FlagFunc("h", func() error {
 			usage()
 			os.Exit(0)
 			panic("unreachable")
-		}
-		listKeys := func(bool) error {
+		})
+		optset.Alias("h", "help")
+
+		optset.BoolFunc("list-keys", func(bool) error {
 			for i := 1; i < 249; i++ {
 				for name, code := range linuxKeys {
 					if code == i {
@@ -212,8 +215,9 @@ func main() {
 			}
 			os.Exit(0)
 			panic("unreachable")
-		}
-		listXKeys := func(bool) error {
+		})
+
+		optset.BoolFunc("list-x-keys", func(bool) error {
 			for i := 1; i < 249; i++ {
 				for name, code := range xKeysNormal {
 					if code == i {
@@ -234,11 +238,8 @@ func main() {
 			}
 			os.Exit(0)
 			panic("unreachable")
-		}
-		optset.BoolFunc("h", help)
-		optset.BoolFunc("help", help)
-		optset.BoolFunc("list-keys", listKeys)
-		optset.BoolFunc("list-x-keys", listXKeys)
+		})
+
 		err := optset.Parse(true, os.Args[1:])
 		if err != nil {
 			fatal(err.Error())
