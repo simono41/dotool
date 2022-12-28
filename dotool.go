@@ -244,6 +244,9 @@ func main() {
 		if err != nil {
 			fatal(err.Error())
 		}
+		if len(optset.Args()) > 0 {
+			fatal("there should be no arguments, commands are read from stdin")
+		}
 	}
 
 	keyboard, err := uinput.CreateKeyboard("/dev/uinput", []byte("dotool keyboard"))
