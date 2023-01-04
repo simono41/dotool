@@ -4,8 +4,8 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
-	"github.com/bendahl/uinput"
 	"git.sr.ht/~geb/opt"
+	"github.com/bendahl/uinput"
 	"math"
 	"os"
 	"strconv"
@@ -14,15 +14,62 @@ import (
 	"unicode"
 )
 
-func fatal(v ...interface{}) {
+var Version string
+
+func usage() {
+	fmt.Fprintln(os.Stderr, `dotool reads commands from stdin and simulates keyboard and pointer events.
+
+The commands are:
+	key CHORD...
+	keydown CHORD...
+	keyup CHORD...
+	type TEXT
+	click left/middle/right
+	buttondown left/middle/right
+	buttonup left/middle/right
+	scroll NUMBER  (where NUMBER is the amount down/up if positive/negative)
+	mouseto X Y  (where X and Y are percentages between 0.0 and 1.0)
+	mousemove X Y  (where X and Y are the number of pixels to move)
+	keydelay MILLISECONDS  (default: 2)
+	keyhold MILLISECONDS  (default: 8)
+	typedelay MILLISECONDS  (default: 2)
+	typehold MILLISECONDS  (default: 8)
+
+Example: echo "key h i shift+1" | dotool
+
+dotool is installed with a udev rule to allow users in group input to run
+it without root permissions. You can make it effective without rebooting by
+running: sudo udevadm trigger
+
+The keys are those used by Linux, but can also be specified using X11 names
+prefixed with x: like x:exclam, as well as their Linux keycode like k:30.
+They are case insensitive, except uppercase character keys also simulate shift.
+
+The modifiers are: super, ctrl, alt and shift.
+
+The daemon and client, dotoold and dotoolc, can used to keep a persistent
+virtual device for a quicker initial response.
+
+--list-keys
+	Print the supported Linux keys and their keycodes.
+
+--list-x-keys
+	Print the supported X11 keys and their Linux keycodes.
+
+--version
+	Print the version and exit.
+`)
+}
+
+func fatal(a ...any) {
 	fmt.Fprint(os.Stderr, "dotool: ")
-	fmt.Fprintln(os.Stderr, v...)
+	fmt.Fprintln(os.Stderr, a...)
 	os.Exit(1)
 }
 
-func warn(v ...interface{}) {
+func warn(a ...any) {
 	fmt.Fprint(os.Stderr, "dotool WARNING: ")
-	fmt.Fprintln(os.Stderr, v...)
+	fmt.Fprintln(os.Stderr, a...)
 }
 
 func log(err error) {
@@ -121,48 +168,6 @@ func (c *Chord) KeyUp(kb uinput.Keyboard) {
 }
 
 
-func usage() {
-	fmt.Fprintln(os.Stderr, `dotool reads commands from stdin and simulates keyboard and pointer events.
-
-The commands are:
-	key CHORD...
-	keydown CHORD...
-	keyup CHORD...
-	type TEXT
-	click left/middle/right
-	buttondown left/middle/right
-	buttonup left/middle/right
-	scroll NUMBER  (where NUMBER is the amount down/up if positive/negative)
-	mouseto X Y  (where X and Y are percentages between 0.0 and 1.0)
-	mousemove X Y  (where X and Y are the number of pixels to move)
-	keydelay MILLISECONDS  (default: 2)
-	keyhold MILLISECONDS  (default: 8)
-	typedelay MILLISECONDS  (default: 2)
-	typehold MILLISECONDS  (default: 8)
-
-Example: echo "key h i shift+1" | dotool
-
-dotool is installed with a udev rule to allow users in group input to run
-it without root permissions. You can make it effective without rebooting by
-running: sudo udevadm trigger
-
-The keys are those used by Linux, but can also be specified using X11 names
-prefixed with x: like x:exclam, as well as their Linux keycode like k:30.
-They are case insensitive, except uppercase character keys also simulate shift.
-
-The modifiers are: super, ctrl, alt and shift.
-
-The daemon and client, dotoold and dotoolc, can used to keep a persistent
-virtual device for a quicker initial response.
-
---list-keys
-	Print the supported Linux keys and their keycodes.
-
---list-x-keys
-	Print the supported X11 keys and their Linux keycodes.
-`)
-}
-
 func cutCmd(s, cmd string) (string, bool) {
 	if strings.HasPrefix(s, cmd + " ") || strings.HasPrefix(s, cmd + "\t") {
 		return s[len(cmd)+1:], true
@@ -213,6 +218,12 @@ func main() {
 					}
 				}
 			}
+			os.Exit(0)
+			panic("unreachable")
+		})
+
+		optset.FlagFunc("version", func() error {
+			fmt.Println(Version)
 			os.Exit(0)
 			panic("unreachable")
 		})
