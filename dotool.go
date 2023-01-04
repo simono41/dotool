@@ -88,34 +88,6 @@ func parseChord(chord string) (Chord, error) {
 	return c, nil
 }
 
-func (c *Chord) Press(kb uinput.Keyboard) {
-	if c.Super {
-		log(kb.KeyDown(uinput.KeyLeftmeta))
-	}
-	if c.Ctrl {
-		log(kb.KeyDown(uinput.KeyLeftctrl))
-	}
-	if c.Alt {
-		log(kb.KeyDown(uinput.KeyLeftalt))
-	}
-	if c.Shift {
-		log(kb.KeyDown(uinput.KeyLeftshift))
-	}
-	log(kb.KeyPress(c.Key))
-	if c.Super {
-		log(kb.KeyUp(uinput.KeyLeftmeta))
-	}
-	if c.Ctrl {
-		log(kb.KeyUp(uinput.KeyLeftctrl))
-	}
-	if c.Alt {
-		log(kb.KeyUp(uinput.KeyLeftalt))
-	}
-	if c.Shift {
-		log(kb.KeyUp(uinput.KeyLeftshift))
-	}
-}
-
 func (c *Chord) KeyDown(kb uinput.Keyboard) {
 	if c.Super {
 		log(kb.KeyDown(uinput.KeyLeftmeta))
@@ -164,7 +136,9 @@ The commands are:
 	mouseto X Y  (where X and Y are percentages between 0.0 and 1.0)
 	mousemove X Y  (where X and Y are the number of pixels to move)
 	keydelay MILLISECONDS
+	keyhold MILLISECONDS
 	typedelay MILLISECONDS
+	typehold MILLISECONDS
 
 Example: echo "key h i shift+1" | dotool
 
@@ -272,7 +246,9 @@ func main() {
 	defer mouse.Close()
 
 	keydelay := time.Duration(0)
+	keyhold := time.Duration(0)
 	typedelay := time.Duration(0)
+	typehold := time.Duration(0)
 
 	sc := bufio.NewScanner(os.Stdin)
 	for sc.Scan() {
@@ -283,7 +259,9 @@ func main() {
 		if s, ok := cutCmd(text, "key"); ok {
 			for _, field := range strings.Fields(s) {
 				if chord, err := parseChord(field); err == nil {
-					chord.Press(keyboard)
+					chord.KeyDown(keyboard)
+					time.Sleep(keyhold)
+					chord.KeyUp(keyboard)
 				} else {
 					warn(err.Error())
 				}
@@ -315,13 +293,23 @@ func main() {
 			} else {
 				warn("invalid delay: " + sc.Text())
 			}
+		} else if s, ok := cutCmd(text, "keyhold"); ok {
+			var d float64
+			_, err := fmt.Sscanf(s + "\n", "%f\n", &d)
+			if err == nil {
+				keyhold = time.Duration(d)*time.Millisecond
+			} else {
+				warn("invalid hold time: " + sc.Text())
+			}
 		} else if s, ok := cutCmd(text, "type"); ok {
 			for _, r := range s {
 				if chord, ok := runeChords[unicode.ToLower(r)]; ok {
 					if unicode.IsUpper(r) {
 						chord.Shift = true
 					}
-					chord.Press(keyboard)
+					chord.KeyDown(keyboard)
+					time.Sleep(typehold)
+					chord.KeyUp(keyboard)
 				}
 				time.Sleep(typedelay)
 			}
@@ -332,6 +320,14 @@ func main() {
 				typedelay = time.Duration(d)*time.Millisecond
 			} else {
 				warn("invalid delay: " + sc.Text())
+			}
+		} else if s, ok := cutCmd(text, "typehold"); ok {
+			var d float64
+			_, err := fmt.Sscanf(s + "\n", "%f\n", &d)
+			if err == nil {
+				typehold = time.Duration(d)*time.Millisecond
+			} else {
+				warn("invalid hold time: " + sc.Text())
 			}
 		} else if s, ok := cutCmd(text, "click"); ok {
 			for _, button := range strings.Fields(s) {
