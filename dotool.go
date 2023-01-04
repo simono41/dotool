@@ -178,6 +178,9 @@ They are case insensitive, except uppercase character keys also simulate shift.
 
 The modifiers are: super, ctrl, alt and shift.
 
+The daemon and client, dotoold and dotoolc, can used to keep a persistent
+virtual device for a quicker initial response.
+
 --list-keys
 	Print the supported Linux keys and their keycodes.
 
