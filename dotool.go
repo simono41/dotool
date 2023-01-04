@@ -135,10 +135,10 @@ The commands are:
 	scroll NUMBER  (where NUMBER is the amount down/up if positive/negative)
 	mouseto X Y  (where X and Y are percentages between 0.0 and 1.0)
 	mousemove X Y  (where X and Y are the number of pixels to move)
-	keydelay MILLISECONDS
-	keyhold MILLISECONDS
-	typedelay MILLISECONDS
-	typehold MILLISECONDS
+	keydelay MILLISECONDS  (default: 2)
+	keyhold MILLISECONDS  (default: 8)
+	typedelay MILLISECONDS  (default: 2)
+	typehold MILLISECONDS  (default: 8)
 
 Example: echo "key h i shift+1" | dotool
 
@@ -245,10 +245,10 @@ func main() {
 	}
 	defer mouse.Close()
 
-	keydelay := time.Duration(0)
-	keyhold := time.Duration(0)
-	typedelay := time.Duration(0)
-	typehold := time.Duration(0)
+	keydelay := time.Duration(2)*time.Millisecond
+	keyhold := time.Duration(8)*time.Millisecond
+	typedelay := time.Duration(2)*time.Millisecond
+	typehold := time.Duration(8)*time.Millisecond
 
 	sc := bufio.NewScanner(os.Stdin)
 	for sc.Scan() {
