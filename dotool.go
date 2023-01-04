@@ -282,30 +282,30 @@ func main() {
 		}
 		if s, ok := cutCmd(text, "key"); ok {
 			for _, field := range strings.Fields(s) {
-				time.Sleep(keydelay)
 				if chord, err := parseChord(field); err == nil {
 					chord.Press(keyboard)
 				} else {
 					warn(err.Error())
 				}
+				time.Sleep(keydelay)
 			}
 		} else if s, ok := cutCmd(text, "keydown"); ok {
 			for _, field := range strings.Fields(s) {
-				time.Sleep(keydelay)
 				if chord, err := parseChord(field); err == nil {
 					chord.KeyDown(keyboard)
 				} else {
 					warn(err.Error())
 				}
+				time.Sleep(keydelay)
 			}
 		} else if s, ok := cutCmd(text, "keyup"); ok {
 			for _, field := range strings.Fields(s) {
-				time.Sleep(keydelay)
 				if chord, err := parseChord(field); err == nil {
 					chord.KeyUp(keyboard)
 				} else {
 					warn(err.Error())
 				}
+				time.Sleep(keydelay)
 			}
 		} else if s, ok := cutCmd(text, "keydelay"); ok {
 			var d float64
@@ -317,13 +317,13 @@ func main() {
 			}
 		} else if s, ok := cutCmd(text, "type"); ok {
 			for _, r := range s {
-				time.Sleep(typedelay)
 				if chord, ok := runeChords[unicode.ToLower(r)]; ok {
 					if unicode.IsUpper(r) {
 						chord.Shift = true
 					}
 					chord.Press(keyboard)
 				}
+				time.Sleep(typedelay)
 			}
 		} else if s, ok := cutCmd(text, "typedelay"); ok {
 			var d float64
