@@ -13,6 +13,7 @@ With go (>=1.19) run `sudo ./install.sh`.
 ## Usage
 
 dotool will require root permissions unless you are in group input.
+See `dotool --help`.
 
 This greets the world:
 `echo 'type Sup, Lads!' | dotool`
@@ -31,9 +32,13 @@ echo 'type super' | dotoolc
 echo 'type speedy' | dotoolc
 ```
 
-## Contact
+## Numen, Chat and Contact
 
-You can send questions, thoughts or patches by composing an email to
+dotool was written for [Numen Voice Control](https://numenvoice.com)
+and you're very welcome to join the Matrix chat at
+[#numen:matrix.org](https://matrix.to/#/#numen:matrix.org).
+
+You can also send questions, thoughts or patches by composing an email to
 [~geb/public-inbox@lists.sr.ht](https://lists.sr.ht/~geb/public-inbox).
 
 ## Support Me
