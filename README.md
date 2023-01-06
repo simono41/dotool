@@ -8,29 +8,35 @@ kept using the daemon.
 
 ## Install From Source
 
-With go (>=1.19) run `sudo ./install.sh`.
+With go (>=1.19) run:
+
+    sudo ./install.sh
 
 ## Usage
 
 dotool will require root permissions unless you are in group input.
-See `dotool --help`.
+See:
+
+    dotool --help
 
 This greets the world:
-`echo 'type Sup, Lads!' | dotool`
+
+    echo 'type Sup, Lads!' | dotool
 
 This screams for three seconds:
-`{ echo keydown A; sleep 3; echo key H shift+1; } | dotool`
+
+    { echo keydown A; sleep 3; echo key H shift+1; } | dotool
 
 This drags the mouse:
-`printf %s\\n 'buttondown left' 'mousemove 0 100' 'buttonup left' | dotool`
+
+    printf %s\\n 'buttondown left' 'mousemove 0 100' 'buttonup left' | dotool
 
 The daemon and client, `dotoold` and `dotoolc`, can used to keep a persistent
 virtual device for a quicker initial response:
-```
-dotoold &
-echo 'type super' | dotoolc
-echo 'type speedy' | dotoolc
-```
+
+    dotoold &
+    echo 'type super' | dotoolc
+    echo 'type speedy' | dotoolc
 
 ## Numen, Chat and Contact
 
