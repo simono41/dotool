@@ -1,2 +1,6 @@
 # This allows users in group input to use dotool without root permissions.
 KERNEL=="uinput", GROUP="input", MODE="0660", OPTIONS+="static_node=uinput"
+
+# This can stop dotool typing guff if you are using a non-us keyboard layout.
+# It only seems to affect X11.
+ACTION=="add", ATTRS{name}=="dotool keyboard", ENV{XKBLAYOUT}="us"
