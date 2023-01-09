@@ -55,4 +55,4 @@ You can also send questions, thoughts or patches by composing an email to
 
 GPLv3 only, see [LICENSE](./LICENSE).
 
-Copyright (c) 2022 John Gebbie
+Copyright (c) 2022-2023 John Gebbie
