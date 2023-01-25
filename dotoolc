@@ -14,11 +14,11 @@ fifo_being_read(){
 p="${DOTOOL_PIPE:-/tmp/dotool_pipe}"
 
 if [ -p "$p" ] && ! [ -w "$p" ]; then
-	echo 'dotoolc: the pipe does not grant write permission'
+	printf %s\\n "dotoolc: the pipe does not grant write permission: $p" >&2
 	exit 1
 fi
 if ! fifo_being_read "$p"; then
-	echo 'dotoolc: dotoold is not connected' >&2
+	printf %s\\n "dotoolc: no dotoold instance is reading the pipe: $p" >&2
 	exit 1
 fi
 exec cat > "$p"

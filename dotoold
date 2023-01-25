@@ -14,7 +14,7 @@ fifo_being_read(){
 p="${DOTOOL_PIPE:-/tmp/dotool_pipe}"
 
 if fifo_being_read "$p" 2> /dev/null; then
-	echo 'dotoold: another instance is already connected' >&2
+	printf %s\\n "dotoold: another instance is already reading the pipe: $p" >&2
 	exit 1
 fi
 
