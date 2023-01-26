@@ -17,26 +17,26 @@ align() {
 	/\<KeyMicmute\>/ d'
 }
 
-echo 'var xKeysNormal = map[string]int{'
-{
+normal="$({
 	paste -d ' ' <(xmodmap -pke | sed '1 d; s/.*= /"/; /.*=/ d; s/ .*/":/' | sed '/^"XF86Eject"/ { N; s/.*\n// }') \
 		<(go doc uinput.keyesc | sed '/Key/ !d; s/^\s*/uinput./; s/ .*/,/' | align) |
 		# Skip really non-matching section, we echo some of them below
 		sed '/^"XF86Tools"/,/^"XF86AudioPreset"/ d' |
 		# Remove duplicate keys
-		sed '/^"XF86Mail":.*Email/ d; /^"Cancel":.*Stop/ d; /^"XF86Send":.*file/ d; /^"Print":.*Sysrq/ d'
+		sed '/^"XF86Mail":.*Email/ d; /^"Cancel":.*Stop/ d; /^"XF86Send":.*file/ d; /^"Print":.*Sysrq/ d; /Key102Nd,$/ d'
 
 	echo '"XF86WebCam": uinput.KeyCamera,'
 	echo '"Print": uinput.KeyPrint,'
-} | sed 's/^".*"/\L&/; s/^/\t/'
-echo '}'
+} | sed 's/^".*"/\L&/; s/^/\t/')"
 
-echo ''
+printf %s\\n "var xKeysNormal = map[string]int{
+$normal
+}
+"
+
 echo 'var xKeysShifted = map[string]int{'
 {
 	paste -d ' ' <(xmodmap -pke | sed '1 d; s/.*= /"/; /.*=/ d; s/\S* /"/; s/ .*/":/' | sed '/^"XF86Eject"/ { N; s/.*\n// }') \
-		<(go doc uinput.keyesc | sed '/Key/ !d; s/^\s*/uinput./; s/ .*/,/' | align) | sed '/^"NoSymbol"/ d; /^\S*_[LR]"/ d' |
-		# Remove backspace and duplicate keys
-		sed '/^"BackSpace"/ d; /^"KP_Decimal":.*Kpcomma/ d; /\<Key102Nd\>/ d'
-} | sed 's/^".*"/\L&/; s/^/\t/'
+		<(go doc uinput.keyesc | sed '/Key/ !d; s/^\s*/uinput./; s/ .*/,/' | align) | sed '/^"NoSymbol"/ d; /^\S*_[LR]"/ d; /Key102Nd,$/ d'
+} | sed 's/^".*"/\L&/; s/^/\t/' | awk 'NR == FNR {if (length($1) > 4) a[$1]; next} !($1 in a)' <(printf %s\\n "$normal") -
 echo '}'
