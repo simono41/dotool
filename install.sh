@@ -6,4 +6,6 @@ mkdir -p "$1/${2:-usr/local/bin}" || exit
 cp -v dotool dotoolc dotoold "$1/${2:-usr/local/bin}" || exit
 mkdir -p "$1/etc/udev/rules.d" || exit
 cp -v 80-dotool.rules "$1/etc/udev/rules.d" || exit
+mkdir -p "$1/usr/share/X11/xorg.conf.d" || exit
+cp -v 50-dotool.conf "$1/usr/share/X11/xorg.conf.d" || exit
 udevadm trigger
