@@ -8,4 +8,6 @@ mkdir -p "$1/etc/udev/rules.d" || exit
 cp -v 80-dotool.rules "$1/etc/udev/rules.d" || exit
 mkdir -p "$1/usr/share/X11/xorg.conf.d" || exit
 cp -v 50-dotool.conf "$1/usr/share/X11/xorg.conf.d" || exit
+mkdir -p "$1/etc/sway/config.d" || exit
+cp -v dotool.sway "$1/etc/sway/config.d/dotool" || exit
 udevadm trigger
