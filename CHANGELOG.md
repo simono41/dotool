@@ -2,6 +2,17 @@
 
 Notable changes to dotool will be documented in this file.
 
+## [1.2](https://git.sr.ht/~geb/dotool/refs/1.2)
+
+### Added
+
+- Added X11 and sway config files for the virtual keyboard's layout.
+- Added ./\_install.sh for packaging the basic files.
+
+### Fixed
+
+- Stopped some x: keys simulating shift.
+
 ## [1.1](https://git.sr.ht/~geb/dotool/refs/1.1)
 
 ### Added
@@ -11,7 +22,6 @@ Notable changes to dotool will be documented in this file.
 
 ### Changed
 
-- The install script is now suitable for packaging and sets --version.
 - There is now a default keydelay, keyhold, typedelay and typehold.
 - Delays now come after keypresses not before.
 - Now aborts if there are any command-line arguments.
