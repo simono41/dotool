@@ -108,7 +108,7 @@ func parseChord(chord string) (Chord, error) {
 	if strings.HasPrefix(k, "k:") {
 		code, err := strconv.Atoi(k[2:])
 		if err != nil {
-			return c, errors.New("invalid keycode: " + k)
+			return c, errors.New("invalid keycode: " + k[2:])
 		}
 		c.Key = code
 	} else if strings.HasPrefix(k, "x:") {
@@ -120,7 +120,7 @@ func parseChord(chord string) (Chord, error) {
 		} else if code, ok := xKeysNormal[strings.ToLower(k[2:])]; ok {
 			c.Key = code
 		} else {
-			return c, errors.New("unknown X11 key: " + k)
+			return c, errors.New("unknown X11 key: " + k[2:])
 		}
 	} else {
 		code, ok := linuxKeys[strings.ToLower(k)]
