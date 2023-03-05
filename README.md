@@ -3,36 +3,41 @@
 dotool reads commands from stdin and simulates keyboard and mouse events.
 It works everywhere on Linux, including in X11, Wayland and TTYs.
 
-It takes about half a second to register the virtual device, but it can be
-kept using the daemon.
-
 ## Install From Source
 
-With go (>=1.19) run:
+With `go` installed, run:
 
     sudo ./install.sh
 
+## Permission
+
+dotool requires permission to `/dev/uinput` to create the virtual input
+devices, and a udev rule grants this to users in group input.
+
+You could try:
+
+    echo type hello | dotool
+
+and if need be, you can run:
+
+    sudo groupadd -f input
+    sudo usermod -a -G input $USER
+
+and re-login and trigger the udev rule or just reboot.
+
 ## Usage
 
-dotool will require root permissions unless you are in group input.
-See:
-
-    dotool --help
-
-This greets the world:
+See `dotool --help`, but this greets the world:
 
     echo 'type Sup, Lads!' | dotool
 
-This screams for three seconds:
+and this screams for three seconds:
 
     { echo keydown A; sleep 3; echo key H shift+1; } | dotool
 
-This drags the mouse:
-
-    printf %s\\n 'buttondown left' 'mousemove 0 100' 'buttonup left' | dotool
-
-The daemon and client, `dotoold` and `dotoolc`, can used to keep a persistent
-virtual device for a quicker initial response:
+Each instance takes about half a second to register the virtual input devices,
+but you can keep writing commands to one instance or use the daemon and client,
+`dotoold` and `dotoolc`:
 
     dotoold &
     echo 'type super' | dotoolc
@@ -41,7 +46,7 @@ virtual device for a quicker initial response:
 ## Numen, Chat and Contact
 
 dotool was written for [Numen Voice Control](https://numenvoice.com)
-and you're very welcome to join the Matrix chat at
+and you're welcome to join the Matrix chat at
 [#numen:matrix.org](https://matrix.to/#/#numen:matrix.org).
 
 You can also send questions, thoughts or patches by composing an email to
