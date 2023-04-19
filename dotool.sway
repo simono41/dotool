@@ -1,2 +1,0 @@
-# This can stop dotool typing guff if you are using a non-us keyboard layout.
-input "18193:2069:dotool_keyboard" xkb_layout "us"

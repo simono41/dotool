@@ -1,11 +1,11 @@
 # dotool
 
-dotool reads commands from stdin and simulates keyboard and mouse events.
+dotool reads commands from stdin and simulates keyboard and pointer events.
 It works everywhere on Linux, including in X11, Wayland and TTYs.
 
 ## Install From Source
 
-With `go` installed, run:
+With `go` and `libxkbcommon-dev` installed, run:
 
     sudo ./install.sh
 
@@ -35,13 +35,22 @@ and this screams for three seconds:
 
     { echo keydown A; sleep 3; echo key H shift+1; } | dotool
 
-Each instance takes about half a second to register the virtual input devices,
-but you can keep writing commands to one instance or use the daemon and client,
-`dotoold` and `dotoolc`:
+There is an initial delay registering the virtual devices, but you can
+keep writing commands to the same instance or use the daemon and client,
+`dotoold` and `dotoolc`.
 
     dotoold &
-    echo 'type super' | dotoolc
-    echo 'type speedy' | dotoolc
+    echo type super | dotoolc
+    echo type speedy | dotoolc
+
+## Keyboard Layouts
+
+dotool will produce gobbledygook if your environment has assigned it a
+different keyboard layout than it's simulating keycodes for.  You can
+match them up with the environment variables `DOTOOL_XKB_LAYOUT` and
+`DOTOOL_XKB_VARIANT`.
+
+    echo type azerty | DOTOOL_XKB_LAYOUT=fr dotool
 
 ## Numen and Contact
 
