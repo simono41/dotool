@@ -43,11 +43,10 @@ but you can keep writing commands to one instance or use the daemon and client,
     echo 'type super' | dotoolc
     echo 'type speedy' | dotoolc
 
-## Numen, Chat and Contact
+## Numen and Contact
 
-dotool was written for [Numen Voice Control](https://numenvoice.com)
-and you're welcome to join the Matrix chat at
-[#numen:matrix.org](https://matrix.to/#/#numen:matrix.org).
+dotool was written for [Numen](https://numenvoice.org), which has a
+[chat on Matrix](https://matrix.to/#/#numen:matrix.org) you're welcome to join.
 
 You can also send questions, thoughts or patches by composing an email to
 [~geb/public-inbox@lists.sr.ht](https://lists.sr.ht/~geb/public-inbox).
