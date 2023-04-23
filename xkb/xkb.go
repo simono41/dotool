@@ -4,7 +4,6 @@ package xkb
 //#cgo LDFLAGS: -ldl
 //
 //#include <stdlib.h>
-//#include <xkbcommon/xkbcommon-compose.h>
 //#include <xkbcommon/xkbcommon.h>
 import "C"
 import "unsafe"
