@@ -89,14 +89,12 @@ DOTOOL_XKB_VARIANT.
 }
 
 func fatal(a ...any) {
-	fmt.Fprint(os.Stderr, "dotool: ")
-	fmt.Fprintln(os.Stderr, a...)
+	fmt.Fprintln(os.Stderr, "dotool:", fmt.Sprint(a...))
 	os.Exit(1)
 }
 
 func warn(a ...any) {
-	fmt.Fprint(os.Stderr, "dotool WARNING: ")
-	fmt.Fprintln(os.Stderr, a...)
+	fmt.Fprintln(os.Stderr, "dotool: WARNING:", fmt.Sprint(a...))
 }
 
 func log(err error) {
