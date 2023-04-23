@@ -210,9 +210,12 @@ func listKeys(keymap *xkb.Keymap, keys map[string]Chord) {
 	}
 }
 
-func cutCmd(s, cmd string) (string, bool) {
-	if strings.HasPrefix(s, cmd + " ") || strings.HasPrefix(s, cmd + "\t") {
-		return s[len(cmd)+1:], true
+func cutWord(s, word string) (string, bool) {
+	if s == word {
+		return "", true
+	}
+	if strings.HasPrefix(s, word + " ") || strings.HasPrefix(s, word + "\t") {
+		return s[len(word)+1:], true
 	}
 	return "", false
 }
@@ -308,7 +311,7 @@ func main() {
 		if text == "" {
 			continue
 		}
-		if s, ok := cutCmd(text, "key"); ok {
+		if s, ok := cutWord(text, "key"); ok {
 			for _, field := range strings.Fields(s) {
 				if chord, err := parseChord(keymap, field); err == nil {
 					chord.KeyDown(keyboard)
@@ -319,7 +322,7 @@ func main() {
 				}
 				time.Sleep(keydelay)
 			}
-		} else if s, ok := cutCmd(text, "keydown"); ok {
+		} else if s, ok := cutWord(text, "keydown"); ok {
 			for _, field := range strings.Fields(s) {
 				if chord, err := parseChord(keymap, field); err == nil {
 					chord.KeyDown(keyboard)
@@ -328,7 +331,7 @@ func main() {
 				}
 				time.Sleep(keydelay)
 			}
-		} else if s, ok := cutCmd(text, "keyup"); ok {
+		} else if s, ok := cutWord(text, "keyup"); ok {
 			for _, field := range strings.Fields(s) {
 				if chord, err := parseChord(keymap, field); err == nil {
 					chord.KeyUp(keyboard)
@@ -337,7 +340,7 @@ func main() {
 				}
 				time.Sleep(keydelay)
 			}
-		} else if s, ok := cutCmd(text, "keydelay"); ok {
+		} else if s, ok := cutWord(text, "keydelay"); ok {
 			var d float64
 			_, err := fmt.Sscanf(s + "\n", "%f\n", &d)
 			if err == nil {
@@ -345,7 +348,7 @@ func main() {
 			} else {
 				warn("invalid delay: " + sc.Text())
 			}
-		} else if s, ok := cutCmd(text, "keyhold"); ok {
+		} else if s, ok := cutWord(text, "keyhold"); ok {
 			var d float64
 			_, err := fmt.Sscanf(s + "\n", "%f\n", &d)
 			if err == nil {
@@ -353,7 +356,7 @@ func main() {
 			} else {
 				warn("invalid hold time: " + sc.Text())
 			}
-		} else if s, ok := cutCmd(text, "type"); ok {
+		} else if s, ok := cutWord(text, "type"); ok {
 			for _, r := range s {
 				if sym := xkb.Utf32ToKeysym(uint32(r)); sym == 0 {
 					warn("invalid character: " + string(r))
@@ -370,7 +373,7 @@ func main() {
 				}
 				time.Sleep(typedelay)
 			}
-		} else if s, ok := cutCmd(text, "typedelay"); ok {
+		} else if s, ok := cutWord(text, "typedelay"); ok {
 			var d float64
 			_, err := fmt.Sscanf(s + "\n", "%f\n", &d)
 			if err == nil {
@@ -378,7 +381,7 @@ func main() {
 			} else {
 				warn("invalid delay: " + sc.Text())
 			}
-		} else if s, ok := cutCmd(text, "typehold"); ok {
+		} else if s, ok := cutWord(text, "typehold"); ok {
 			var d float64
 			_, err := fmt.Sscanf(s + "\n", "%f\n", &d)
 			if err == nil {
@@ -386,7 +389,7 @@ func main() {
 			} else {
 				warn("invalid hold time: " + sc.Text())
 			}
-		} else if s, ok := cutCmd(text, "click"); ok {
+		} else if s, ok := cutWord(text, "click"); ok {
 			for _, button := range strings.Fields(s) {
 				switch button {
 				case "left", "1":
@@ -399,7 +402,7 @@ func main() {
 					warn("unknown button: " + button)
 				}
 			}
-		} else if s, ok := cutCmd(text, "buttondown"); ok {
+		} else if s, ok := cutWord(text, "buttondown"); ok {
 			for _, button := range strings.Fields(s) {
 				switch button {
 				case "left", "1":
@@ -412,7 +415,7 @@ func main() {
 					warn("unknown button: " + button)
 				}
 			}
-		} else if s, ok := cutCmd(text, "buttonup"); ok {
+		} else if s, ok := cutWord(text, "buttonup"); ok {
 			for _, button := range strings.Fields(s) {
 				switch button {
 				case "left", "1":
@@ -425,7 +428,7 @@ func main() {
 					warn("unknown button: " + button)
 				}
 			}
-		} else if s, ok := cutCmd(text, "wheel"); ok {
+		} else if s, ok := cutWord(text, "wheel"); ok {
 			var n float64
 			_, err := fmt.Sscanf(s + "\n", "%f\n", &n)
 			if err == nil {
@@ -433,7 +436,7 @@ func main() {
 			} else {
 				warn("invalid wheel amount: " + sc.Text())
 			}
-		} else if s, ok := cutCmd(text, "hwheel"); ok {
+		} else if s, ok := cutWord(text, "hwheel"); ok {
 			var n float64
 			_, err := fmt.Sscanf(s + "\n", "%f\n", &n)
 			if err == nil {
@@ -441,7 +444,7 @@ func main() {
 			} else {
 				warn("invalid hwheel amount: " + sc.Text())
 			}
-		} else if s, ok := cutCmd(text, "scroll"); ok {
+		} else if s, ok := cutWord(text, "scroll"); ok {
 			var n float64
 			_, err := fmt.Sscanf(s + "\n", "%f\n", &n)
 			if err == nil {
@@ -449,7 +452,7 @@ func main() {
 			} else {
 				warn("invalid scroll amount: " + sc.Text())
 			}
-		} else if s, ok := cutCmd(text, "mouseto"); ok {
+		} else if s, ok := cutWord(text, "mouseto"); ok {
 			var x, y float64
 			_, err := fmt.Sscanf(s + "\n", "%f %f\n", &x, &y)
 			if err == nil {
@@ -466,7 +469,7 @@ func main() {
 			} else {
 				warn("invalid coordinate: " + sc.Text())
 			}
-		} else if s, ok := cutCmd(text, "mousemove"); ok {
+		} else if s, ok := cutWord(text, "mousemove"); ok {
 			var x, y float64
 			_, err := fmt.Sscanf(s + "\n", "%f %f\n", &x, &y)
 			if err == nil {
