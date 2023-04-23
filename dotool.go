@@ -28,7 +28,8 @@ The commands are:
 	click left/middle/right
 	buttondown left/middle/right
 	buttonup left/middle/right
-	scroll NUMBER  (where NUMBER is the amount down/up if positive/negative)
+	wheel AMOUNT  (a positive AMOUNT is up, a negative is down)
+	hwheel AMOUNT  (a positive AMOUNT is right, a negative is left)
 	mouseto X Y  (where X and Y are percentages between 0.0 and 1.0)
 	mousemove X Y  (where X and Y are the number of pixels to move)
 	keydelay MILLISECONDS  (default: 2)
@@ -423,6 +424,22 @@ func main() {
 				default:
 					warn("unknown button: " + button)
 				}
+			}
+		} else if s, ok := cutCmd(text, "wheel"); ok {
+			var n float64
+			_, err := fmt.Sscanf(s + "\n", "%f\n", &n)
+			if err == nil {
+				log(mouse.Wheel(false, int32(n)))
+			} else {
+				warn("invalid wheel amount: " + sc.Text())
+			}
+		} else if s, ok := cutCmd(text, "hwheel"); ok {
+			var n float64
+			_, err := fmt.Sscanf(s + "\n", "%f\n", &n)
+			if err == nil {
+				log(mouse.Wheel(true, int32(n)))
+			} else {
+				warn("invalid hwheel amount: " + sc.Text())
 			}
 		} else if s, ok := cutCmd(text, "scroll"); ok {
 			var n float64
