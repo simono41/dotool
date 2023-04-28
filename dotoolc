@@ -2,7 +2,7 @@
 if [ $# != 0 ]; then
 	echo 'dotoolc writes its stdin to the pipe being read by dotoold.
 dotoolc will exit immediately if the pipe is not being read.
-The path of the pipe is $DOTOOL_PIPE else /tmp/dotool_pipe.
+The path of the pipe is $DOTOOL_PIPE else /tmp/dotool-pipe.
 ' >&2
 	[ "$1" = -h ] || [ "$1" = --help ]; exit
 fi
@@ -11,7 +11,7 @@ fifo_being_read(){
 	[ -p "$1" ] && /bin/echo 1<>"$1" >"$1"
 }
 
-p="${DOTOOL_PIPE:-/tmp/dotool_pipe}"
+p="${DOTOOL_PIPE:-/tmp/dotool-pipe}"
 
 if [ -p "$p" ] && ! [ -w "$p" ]; then
 	printf %s\\n "dotoolc: the pipe does not grant write permission: $p" >&2
