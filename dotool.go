@@ -252,13 +252,13 @@ func main() {
 		})
 		optset.Alias("h", "help")
 
-		optset.BoolFunc("list-keys", func(bool) error {
+		optset.FlagFunc("list-keys", func() error {
 			listKeys(keymap, LinuxKeys)
 			os.Exit(0)
 			panic("unreachable")
 		})
 
-		optset.BoolFunc("list-x-keys", func(bool) error {
+		optset.FlagFunc("list-x-keys", func() error {
 			listKeys(keymap, XKeys)
 			os.Exit(0)
 			panic("unreachable")
