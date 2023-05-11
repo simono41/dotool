@@ -45,10 +45,9 @@ keep writing commands to the same instance or use the daemon and client,
 
 ## Keyboard Layouts
 
-dotool will produce gobbledygook if your environment has assigned it a
-different keyboard layout than it's simulating keycodes for.  You can
-match them up with the environment variables `DOTOOL_XKB_LAYOUT` and
-`DOTOOL_XKB_VARIANT`.
+dotool will type gobbledygook if your environment has assigned it a different
+keyboard layout than it's simulating keycodes for.  You can match them up
+with the environment variables `DOTOOL_XKB_LAYOUT` and `DOTOOL_XKB_VARIANT`.
 
     echo type azerty | DOTOOL_XKB_LAYOUT=fr dotool
 

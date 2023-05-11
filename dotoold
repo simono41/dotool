@@ -1,9 +1,8 @@
 #!/bin/sh
 if [ $# != 0 ]; then
-	echo 'dotoold runs dotool reading from a pipe for dotoolc to write to.
-dotoold will exit immediately if the pipe is already being read.
-The path used for the pipe is $DOTOOL_PIPE else /tmp/dotool-pipe.
-' >&2
+	echo 'dotoold runs dotool reading from a pipe for dotoolc to write to. dotoold
+will exit immediately if the pipe is already being read. The path used
+for the pipe is $DOTOOL_PIPE else /tmp/dotool-pipe.' >&2
 	[ "$1" = -h ] || [ "$1" = --help ]; exit
 fi
 

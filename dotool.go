@@ -21,21 +21,21 @@ func usage() {
 	fmt.Println(`dotool reads commands from stdin and simulates keyboard and pointer events.
 
 The commands are:
-	key CHORD...
-	keydown CHORD...
-	keyup CHORD...
-	type TEXT
-	click left/middle/right
-	buttondown left/middle/right
-	buttonup left/middle/right
-	wheel AMOUNT  (a positive AMOUNT is up, a negative is down)
-	hwheel AMOUNT  (a positive AMOUNT is right, a negative is left)
-	mouseto X Y  (where X and Y are percentages between 0.0 and 1.0)
-	mousemove X Y  (where X and Y are the number of pixels to move)
-	keydelay MILLISECONDS  (default: 2)
-	keyhold MILLISECONDS  (default: 8)
-	typedelay MILLISECONDS  (default: 2)
-	typehold MILLISECONDS  (default: 8)
+    key CHORD...
+    keydown CHORD...
+    keyup CHORD...
+    type TEXT
+    click left/middle/right
+    buttondown left/middle/right
+    buttonup left/middle/right
+    wheel AMOUNT  (a positive AMOUNT is up, a negative is down)
+    hwheel AMOUNT  (a positive AMOUNT is right, a negative is left)
+    mouseto X Y  (where X and Y are percentages between 0.0 and 1.0)
+    mousemove X Y  (where X and Y are the number of pixels to move)
+    keydelay MILLISECONDS  (default: 2)
+    keyhold MILLISECONDS  (default: 8)
+    typedelay MILLISECONDS  (default: 2)
+    typehold MILLISECONDS  (default: 8)
 
 
 dotool is installed with a udev rule to allow users in group input to run
@@ -43,8 +43,8 @@ it without root permissions.
 
 You can add yourself to group input by running:
 
-	sudo groupadd -f input
-	sudo usermod -a -G input $USER
+    sudo groupadd -f input
+    sudo usermod -a -G input $USER
 
 It's foolproof to reboot to make the rule effective.
 
@@ -55,37 +55,35 @@ uppercase character keys also simulate shift.
 
 The modifiers are: super, ctrl, alt and shift.
 
-	echo key shift+1 x:exclam shift+k:2 | dotool
+    echo key shift+1 x:exclam shift+k:2 | dotool
 
 
 There is an initial delay registering the virtual devices, but you can keep
 writing commands to the same instance or use the daemon and client, dotoold
 and dotoolc.
 
-	{ echo keydown A; sleep 3; echo key H shift+1; } | dotool
+    { echo keydown A; sleep 3; echo key H shift+1; } | dotool
 
-	dotoold &
-	echo type super | dotoolc
-	echo type speedy | dotoolc
+    dotoold &
+    echo type super | dotoolc
+    echo type speedy | dotoolc
 
 
-dotool will produce gobbledygook if your environment has assigned it a
-different keyboard layout than it's simulating keycodes for.  You can
-match them up with the environment variables DOTOOL_XKB_LAYOUT and
-DOTOOL_XKB_VARIANT.
+dotool will type gobbledygook if your environment has assigned it a different
+keyboard layout than it's simulating keycodes for.  You can match them up
+with the environment variables DOTOOL_XKB_LAYOUT and DOTOOL_XKB_VARIANT.
 
-	echo type azerty | DOTOOL_XKB_LAYOUT=fr dotool
+    echo type azerty | DOTOOL_XKB_LAYOUT=fr dotool
 
 
 --list-keys
-	Print the possible Linux keys and exit.
+    Print the possible Linux keys and exit.
 
 --list-x-keys
-	Print the possible XKB keys and exit.
+    Print the possible XKB keys and exit.
 
 --version
-	Print the version and exit.
-`)
+    Print the version and exit.`)
 }
 
 func fatal(a ...any) {
