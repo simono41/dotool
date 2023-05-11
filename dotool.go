@@ -221,25 +221,29 @@ func cutWord(s, word string) (string, bool) {
 func main() {
 	var keymap *xkb.Keymap
 	{
-		names := xkb.RuleNames{
-			Rules: "",
-			Model: "",
-			Layout: os.Getenv("DOTOOL_XKB_LAYOUT"),
-			Variant: os.Getenv("DOTOOL_XKB_VARIANT"),
-			Options: "",
+		layout := os.Getenv("DOTOOL_XKB_LAYOUT")
+		if layout == "" {
+			layout = os.Getenv("XKB_DEFAULT_LAYOUT")
 		}
+		variant := os.Getenv("DOTOOL_XKB_VARIANT")
+		if variant == "" {
+			variant = os.Getenv("XKB_DEFAULT_VARIANT")
+		}
+		if variant != "" && layout == "" {
+			// Otherwise xkbcommon just ignores the variant.
+			fatal("you need to set $DOTOOL_XKB_LAYOUT or $XKB_DEFAULT_LAYOUT if the variant is set")
+		}
+		names := xkb.RuleNames{Layout: layout, Variant: variant}
 
 		ctx := xkb.ContextNew(xkb.ContextNoFlags)
 		defer ctx.Unref()
-
 		keymap = ctx.KeymapNewFromNames(&names, xkb.KeymapCompileNoFlags)
-		defer keymap.Unref()
-
 		if keymap == nil {
 			fatal("failed to compile keymap")
 		}
+		defer keymap.Unref()
 
-		initKeys(keymap, names != xkb.RuleNames{})
+		initKeys(keymap)
 	}
 
 	{

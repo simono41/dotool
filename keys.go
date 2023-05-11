@@ -27,6 +27,7 @@ var LinuxKeys = map[string]Chord{
 	"ro": Chord{Key: uinput.KeyRo},
 	"zenkakuhankaku": Chord{Key: uinput.KeyZenkakuhankaku},
 
+	// Potentially overwritten by initKeys()
 	"esc": Chord{Key: uinput.KeyEsc},
 	"1": Chord{Key: uinput.Key1},
 	"2": Chord{Key: uinput.Key2},
@@ -495,18 +496,16 @@ func newChord(keymap *xkb.Keymap, mask, code uint32) Chord{
 	}
 }
 
-func initKeys(keymap *xkb.Keymap, linux bool) {
+func initKeys(keymap *xkb.Keymap) {
 	maxCode := keymap.MaxKeycode()
 	for code := keymap.MinKeycode(); code <= maxCode && code < 256; code++ {
 		numLevels := keymap.NumLevelsForKey(code, 0)
 		for level := uint32(0); level < numLevels; level++ {
 			for _, sym := range keymap.KeyGetSymsByLevel(code, 0, level) {
 				chord := newChord(keymap, keymap.KeyGetMod(code, 0, level), code)
-				if linux {
-					for name, s := range linuxXSyms {
-						if s == sym {
-							LinuxKeys[name] = chord
-						}
+				for name, s := range linuxXSyms {
+					if s == sym {
+						LinuxKeys[name] = chord
 					}
 				}
 				XKeys[xkb.KeysymGetName(sym)] = chord
