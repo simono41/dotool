@@ -2,6 +2,19 @@
 
 Notable changes to dotool will be documented in this file.
 
+## [1.3](https://git.sr.ht/~geb/dotool/refs/1.3)
+
+## Added
+
+- Support for keyboard layouts.
+- hwheel for horizontal scrolling.
+
+## Changed
+
+- Now depends on the xkbcommon library.
+- XKB key names are now case-sensitive.
+- scroll -> wheel
+
 ## [1.2](https://git.sr.ht/~geb/dotool/refs/1.2)
 
 ### Added
