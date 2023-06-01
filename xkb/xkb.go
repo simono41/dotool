@@ -109,7 +109,7 @@ func (km *Keymap) KeyGetSymsByLevel(key, layout, level uint32) []uint32 {
 	if n == 0 || syms == nil {
 		return nil
 	}
-	data := (*[1 << 30]C.xkb_keysym_t)(unsafe.Pointer(syms))[:n:n]
+	data := unsafe.Slice(syms, n)
 	s := make([]uint32, n)
 	for i := 0; i < n; i++ {
 		s[i] = uint32(data[i])
