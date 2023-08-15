@@ -244,6 +244,7 @@ func main() {
 		initKeys(keymap)
 	}
 
+	keyboardName := []byte("dotool keyboard")
 	{
 		optset := opt.NewOptionSet()
 
@@ -253,6 +254,11 @@ func main() {
 			panic("unreachable")
 		})
 		optset.Alias("h", "help")
+
+		optset.Func("keyboard-name", func(s string) error {
+			keyboardName = []byte(s)
+			return nil
+		})
 
 		optset.FlagFunc("list-keys", func() error {
 			listKeys(keymap, LinuxKeys)
@@ -281,7 +287,7 @@ func main() {
 		}
 	}
 
-	keyboard, err := uinput.CreateKeyboard("/dev/uinput", []byte("dotool keyboard"))
+	keyboard, err := uinput.CreateKeyboard("/dev/uinput", keyboardName)
 	if err != nil {
 		fatal(err.Error())
 	}
