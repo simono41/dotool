@@ -3,6 +3,7 @@ package main
 import (
 	"git.sr.ht/~geb/dotool/xkb"
 	"github.com/bendahl/uinput"
+	"unicode"
 )
 
 var LinuxKeys = map[string]Chord{
@@ -481,6 +482,129 @@ var linuxXSyms = map[string]uint32{
 
 var XKeys = map[string]Chord{}
 
+type DeadKeyResult struct {
+	DeadKey, Key string
+	Result rune
+}
+
+// this relies on a conventional keymap
+// this isn't exhaustive (e.g. acircumflexacute)
+var DeadKeyResults = []DeadKeyResult{
+	{"dead_abovedot", "B", 'Ḃ'},
+	{"dead_abovedot", "C", 'Ċ'},
+	{"dead_abovedot", "D", 'Ḋ'},
+	{"dead_abovedot", "E", 'Ė'},
+	{"dead_abovedot", "F", 'Ḟ'},
+	{"dead_abovedot", "G", 'Ġ'},
+	{"dead_abovedot", "I", 'İ'},
+	{"dead_abovedot", "M", 'Ṁ'},
+	{"dead_abovedot", "P", 'Ṗ'},
+	{"dead_abovedot", "S", 'Ṡ'},
+	{"dead_abovedot", "T", 'Ṫ'},
+	{"dead_abovedot", "X", 'Ẋ'},
+	{"dead_abovedot", "Z", 'Ż'},
+	{"dead_acute", "A", 'Á'},
+	{"dead_acute", "C", 'Ć'},
+	{"dead_acute", "E", 'É'},
+	{"dead_acute", "I", 'Í'},
+	{"dead_acute", "L", 'Ĺ'},
+	{"dead_acute", "N", 'Ń'},
+	{"dead_acute", "O", 'Ó'},
+	{"dead_acute", "R", 'Ŕ'},
+	{"dead_acute", "S", 'Ś'},
+	{"dead_acute", "U", 'Ú'},
+	{"dead_acute", "W", 'Ẃ'},
+	{"dead_acute", "Y", 'Ý'},
+	{"dead_acute", "Z", 'Ź'},
+	{"dead_belowdot", "A", 'Ạ'},
+	{"dead_belowdot", "E", 'Ẹ'},
+	{"dead_belowdot", "I", 'Ị'},
+	{"dead_belowdot", "L", 'Ḷ'},
+	{"dead_belowdot", "O", 'Ọ'},
+	{"dead_belowdot", "U", 'Ụ'},
+	{"dead_belowdot", "Y", 'Ỵ'},
+	{"dead_breve", "A", 'Ă'},
+	{"dead_breve", "G", 'Ğ'},
+	{"dead_breve", "I", 'Ĭ'},
+	{"dead_breve", "U", 'Ŭ'},
+	{"dead_caron", "C", 'Č'},
+	{"dead_caron", "D", 'Ď'},
+	{"dead_caron", "E", 'Ě'},
+	{"dead_caron", "G", 'Ǧ'},
+	{"dead_caron", "L", 'Ľ'},
+	{"dead_caron", "N", 'Ň'},
+	{"dead_caron", "O", 'Ǒ'},
+	{"dead_caron", "R", 'Ř'},
+	{"dead_caron", "S", 'Š'},
+	{"dead_caron", "T", 'Ť'},
+	{"dead_caron", "Z", 'Ž'},
+	{"dead_cedilla", "C", 'Ç'},
+	{"dead_cedilla", "G", 'Ģ'},
+	{"dead_cedilla", "K", 'Ķ'},
+	{"dead_cedilla", "L", 'Ļ'},
+	{"dead_cedilla", "N", 'Ņ'},
+	{"dead_cedilla", "R", 'Ŗ'},
+	{"dead_cedilla", "S", 'Ş'},
+	{"dead_cedilla", "T", 'Ţ'},
+	{"dead_circumflex", "A", 'Â'},
+	{"dead_circumflex", "C", 'Ĉ'},
+	{"dead_circumflex", "E", 'Ê'},
+	{"dead_circumflex", "G", 'Ĝ'},
+	{"dead_circumflex", "H", 'Ĥ'},
+	{"dead_circumflex", "I", 'Î'},
+	{"dead_circumflex", "J", 'Ĵ'},
+	{"dead_circumflex", "O", 'Ô'},
+	{"dead_circumflex", "S", 'Ŝ'},
+	{"dead_circumflex", "U", 'Û'},
+	{"dead_circumflex", "W", 'Ŵ'},
+	{"dead_circumflex", "Y", 'Ŷ'},
+	{"dead_diaeresis", "A", 'Ä'},
+	{"dead_diaeresis", "E", 'Ë'},
+	{"dead_diaeresis", "I", 'Ï'},
+	{"dead_diaeresis", "O", 'Ö'},
+	{"dead_diaeresis", "U", 'Ü'},
+	{"dead_diaeresis", "W", 'Ẅ'},
+	{"dead_diaeresis", "Y", 'Ÿ'},
+	{"dead_doubleacute", "O", 'Ő'},
+	{"dead_doubleacute", "U", 'Ű'},
+	{"dead_grave", "A", 'À'},
+	{"dead_grave", "E", 'È'},
+	{"dead_grave", "I", 'Ì'},
+	{"dead_grave", "O", 'Ò'},
+	{"dead_grave", "U", 'Ù'},
+	{"dead_grave", "W", 'Ẁ'},
+	{"dead_grave", "Y", 'Ỳ'},
+	{"dead_hook", "A", 'Ả'},
+	{"dead_hook", "E", 'Ẻ'},
+	{"dead_hook", "I", 'Ỉ'},
+	{"dead_hook", "O", 'Ỏ'},
+	{"dead_hook", "U", 'Ủ'},
+	{"dead_hook", "Y", 'Ỷ'},
+	{"dead_horn", "O", 'Ơ'},
+	{"dead_horn", "T", 'Þ'},
+	{"dead_horn", "U", 'Ư'},
+	{"dead_macron", "A", 'Ā'},
+	{"dead_macron", "E", 'Ē'},
+	{"dead_macron", "I", 'Ī'},
+	{"dead_macron", "O", 'Ō'},
+	{"dead_macron", "U", 'Ū'},
+	{"dead_ogonek", "A", 'Ą'},
+	{"dead_ogonek", "E", 'Ę'},
+	{"dead_ogonek", "I", 'Į'},
+	{"dead_ogonek", "U", 'Ų'},
+	{"dead_stroke", "D", 'Đ'},
+	{"dead_stroke", "H", 'Ħ'},
+	{"dead_stroke", "L", 'Ł'},
+	{"dead_stroke", "Z", 'Ƶ'},
+	{"dead_tilde", "A", 'Ã'},
+	{"dead_tilde", "E", 'Ẽ'},
+	{"dead_tilde", "I", 'Ĩ'},
+	{"dead_tilde", "N", 'Ñ'},
+	{"dead_tilde", "O", 'Õ'},
+	{"dead_tilde", "U", 'Ũ'},
+	{"dead_tilde", "Y", 'Ỹ'},
+}
+
 func newChord(keymap *xkb.Keymap, mask, code uint32) Chord{
 	altGrMask := uint32(1) << keymap.ModGetIndex("Mod5")
 	ctrlMask := uint32(1) << keymap.ModGetIndex(xkb.ModNameCtrl)
@@ -527,4 +651,19 @@ func getChord(keymap *xkb.Keymap, keysym uint32) Chord {
 		}
 	}
 	return Chord{}
+}
+
+func getDeadChords(keymap *xkb.Keymap, result rune) (Chord, Chord) {
+	r := unicode.ToUpper(result)
+	for _, d := range DeadKeyResults {
+		if d.Result == r {
+			deadKey := XKeys[d.DeadKey]
+			key := XKeys[d.Key]
+			if deadKey.Key != 0 && key.Key != 0 {
+				key.Shift = d.Result == result
+				return deadKey, key
+			}
+		}
+	}
+	return Chord{}, Chord{}
 }

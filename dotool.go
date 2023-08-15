@@ -364,18 +364,23 @@ func main() {
 			}
 		} else if s, ok := cutWord(text, "type"); ok {
 			for _, r := range s {
-				if sym := xkb.Utf32ToKeysym(uint32(r)); sym == 0 {
+				sym := xkb.Utf32ToKeysym(uint32(r))
+				if sym == 0 {
 					warn("invalid character: " + string(r))
+				} else if c := getChord(keymap, sym); c.Key != 0 {
+					c.KeyDown(keyboard)
+					time.Sleep(typehold)
+					c.KeyUp(keyboard)
+				} else if c1, c2 := getDeadChords(keymap, r); c1.Key != 0 {
+					c1.KeyDown(keyboard)
+					time.Sleep(typehold)
+					c1.KeyUp(keyboard)
+					time.Sleep(typedelay)
+					c2.KeyDown(keyboard)
+					time.Sleep(typehold)
+					c2.KeyUp(keyboard)
 				} else {
-					chord := getChord(keymap, sym)
-					if chord.Key == 0 {
-						warn("impossible character for layout: " + string(r))
-						time.Sleep(typehold)
-					} else {
-						chord.KeyDown(keyboard)
-						time.Sleep(typehold)
-						chord.KeyUp(keyboard)
-					}
+					warn("impossible character for layout: " + string(r))
 				}
 				time.Sleep(typedelay)
 			}
