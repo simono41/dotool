@@ -8,7 +8,11 @@ and TTYs.
 
 With `go`, `libxkbcommon-dev` and `scdoc` installed, run:
 
-    sudo ./install.sh
+    ./build.sh && sudo ./build.sh install
+
+And to trigger the udev rule, run:
+
+    sudo udevadm control --reload && sudo udevadm trigger
 
 ## Usage
 
