@@ -4,6 +4,17 @@ dotool reads actions from stdin and simulates keyboard/mouse input using
 Linux's uinput module. It works system-wide, including in X11, Wayland
 and TTYs.
 
+## Install From Packages
+
+Packages of dotool are available on:
+
+- [Alpine](https://pkgs.alpinelinux.org/packages?name=dotool)
+- [Arch (AUR)](https://aur.archlinux.org/packages?SeB=n&K=dotool)
+- [Nix](https://search.nixos.org/packages?channel=unstable&type=packages&query=dotool)
+- [Void](https://voidlinux.org/packages/?q=dotool)
+
+and potentially other platforms.
+
 ## Install From Source
 
 With `go`, `libxkbcommon-dev` and `scdoc` installed, run:
