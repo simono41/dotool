@@ -151,17 +151,42 @@ func (c Chord) KeyUp(kb uinput.Keyboard) {
 	log(kb.KeyUp(c.Key))
 }
 
+func (c *Chord) String() string {
+	var sb strings.Builder
+	if c.Super {
+		sb.WriteString("super+")
+	}
+	if c.AltGr {
+		sb.WriteString("altgr+")
+	}
+	if c.Ctrl {
+		sb.WriteString("ctrl+")
+	}
+	if c.Alt {
+		sb.WriteString("alt+")
+	}
+	if c.Shift {
+		sb.WriteString("shift+")
+	}
+	sb.WriteString("k:")
+	sb.WriteString(strconv.Itoa(c.Key))
+	return sb.String()
+}
+
 
 func listKeys(keymap *xkb.Keymap, keys map[string]Chord) {
+	var margin int
 	for code := 1; code < 256; code++ {
-		for name, chord := range keys {
-			if chord.Key == code && (chord == Chord{Key: code}) {
-				fmt.Println(name, code)
+		for name := range keys {
+			if len(name) > margin {
+				margin = len(name)
 			}
 		}
+	}
+	for code := 1; code < 256; code++ {
 		for name, chord := range keys {
-			if chord.Key == code && (chord != Chord{Key: code}) {
-				fmt.Println(name, code)
+			if chord.Key == code {
+				fmt.Printf("%-*s %s\n", margin, name, chord.String())
 			}
 		}
 	}
