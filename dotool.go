@@ -97,6 +97,8 @@ func parseChord(keymap *xkb.Keymap, chord string) (Chord, error) {
 		switch strings.ToLower(keys[i]) {
 		case "super":
 			c.Super = true
+		case "altgr":
+			c.AltGr = true
 		case "ctrl", "control":
 			c.Ctrl = true
 		case "alt":

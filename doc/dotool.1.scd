@@ -67,7 +67,7 @@ Currently the *type* action has only heuristic support for dead keys.
 	Press and/or release each _CHORD_. A _CHORD_ is a key or a key with
 	modifiers, such as *a*, *shift+a* or *ctrl+shift+a*.
 
-	The supported modifiers are *super*, *ctrl*, *alt* and *shift*.
+	The supported modifiers are *super*, *altgr*, *ctrl*, *alt* and *shift*.
 
 	Keys can be specified by Linux names, XKB names prefixed with
 	*x:*, or Linux keycodes prefixed with *k:*. The Linux names are
