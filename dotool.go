@@ -111,7 +111,7 @@ func parseChord(keymap *xkb.Keymap, chord string) (Chord, error) {
 	return c, nil
 }
 
-func (c *Chord) KeyDown(kb uinput.Keyboard) {
+func (c Chord) KeyDown(kb uinput.Keyboard) {
 	if c.Super {
 		log(kb.KeyDown(super))
 	}
@@ -130,7 +130,7 @@ func (c *Chord) KeyDown(kb uinput.Keyboard) {
 	log(kb.KeyDown(c.Key))
 }
 
-func (c *Chord) KeyUp(kb uinput.Keyboard) {
+func (c Chord) KeyUp(kb uinput.Keyboard) {
 	if c.Super {
 		log(kb.KeyUp(super))
 	}
