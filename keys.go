@@ -6,6 +6,8 @@ import (
 	"unicode"
 )
 
+var super, altgr, ctrl, alt, shift int
+
 var LinuxKeys = map[string]Chord{
 	// Linux Only
 	"micmute": Chord{Key: uinput.KeyMicmute},
@@ -641,6 +643,11 @@ func initKeys(keymap *xkb.Keymap) {
 			}
 		}
 	}
+	super = XKeys["Super_L"].Key
+	altgr = XKeys["ISO_Level3_Shift"].Key
+	ctrl = XKeys["Control_L"].Key
+	alt = XKeys["Alt_L"].Key
+	shift = XKeys["Shift_L"].Key
 }
 
 func getChord(keymap *xkb.Keymap, keysym uint32) Chord {

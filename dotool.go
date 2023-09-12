@@ -113,38 +113,38 @@ func parseChord(keymap *xkb.Keymap, chord string) (Chord, error) {
 
 func (c *Chord) KeyDown(kb uinput.Keyboard) {
 	if c.Super {
-		log(kb.KeyDown(uinput.KeyLeftmeta))
+		log(kb.KeyDown(super))
 	}
 	if c.AltGr {
-		log(kb.KeyDown(84))
+		log(kb.KeyDown(altgr))
 	}
 	if c.Ctrl {
-		log(kb.KeyDown(uinput.KeyLeftctrl))
+		log(kb.KeyDown(ctrl))
 	}
 	if c.Alt {
-		log(kb.KeyDown(uinput.KeyLeftalt))
+		log(kb.KeyDown(alt))
 	}
 	if c.Shift {
-		log(kb.KeyDown(uinput.KeyLeftshift))
+		log(kb.KeyDown(shift))
 	}
 	log(kb.KeyDown(c.Key))
 }
 
 func (c *Chord) KeyUp(kb uinput.Keyboard) {
 	if c.Super {
-		log(kb.KeyUp(uinput.KeyLeftmeta))
+		log(kb.KeyUp(super))
 	}
 	if c.AltGr {
-		log(kb.KeyUp(84))
+		log(kb.KeyUp(altgr))
 	}
 	if c.Ctrl {
-		log(kb.KeyUp(uinput.KeyLeftctrl))
+		log(kb.KeyUp(ctrl))
 	}
 	if c.Alt {
-		log(kb.KeyUp(uinput.KeyLeftalt))
+		log(kb.KeyUp(alt))
 	}
 	if c.Shift {
-		log(kb.KeyUp(uinput.KeyLeftshift))
+		log(kb.KeyUp(shift))
 	}
 	log(kb.KeyUp(c.Key))
 }
