@@ -629,10 +629,15 @@ func initKeys(keymap *xkb.Keymap) {
 				chord := newChord(keymap, keymap.KeyGetMod(code, 0, level), code)
 				for name, s := range linuxXSyms {
 					if s == sym {
-						LinuxKeys[name] = chord
+						if _, ok := LinuxKeys[name]; !ok {
+							LinuxKeys[name] = chord
+						}
 					}
 				}
-				XKeys[xkb.KeysymGetName(sym)] = chord
+				name := xkb.KeysymGetName(sym)
+				if _, ok := XKeys[name]; !ok {
+					XKeys[name] = chord
+				}
 			}
 		}
 	}
