@@ -232,43 +232,43 @@ func main() {
 
 	keyboardName := []byte("dotool keyboard")
 	{
-		optset := opt.NewOptionSet()
+		o := opt.NewOptSet()
 
-		optset.FlagFunc("h", func() error {
+		o.FlagFunc("h", func() error {
 			usage()
 			os.Exit(0)
 			panic("unreachable")
 		})
-		optset.Alias("h", "help")
+		o.Alias("h", "help")
 
-		optset.Func("keyboard-name", func(s string) error {
+		o.Func("keyboard-name", func(s string) error {
 			keyboardName = []byte(s)
 			return nil
 		})
 
-		optset.FlagFunc("list-keys", func() error {
+		o.FlagFunc("list-keys", func() error {
 			listKeys(keymap, LinuxKeys)
 			os.Exit(0)
 			panic("unreachable")
 		})
 
-		optset.FlagFunc("list-x-keys", func() error {
+		o.FlagFunc("list-x-keys", func() error {
 			listKeys(keymap, XKeys)
 			os.Exit(0)
 			panic("unreachable")
 		})
 
-		optset.FlagFunc("version", func() error {
+		o.FlagFunc("version", func() error {
 			fmt.Println(Version)
 			os.Exit(0)
 			panic("unreachable")
 		})
 
-		err := optset.Parse(true, os.Args[1:])
+		err := o.Parse(true, os.Args[1:])
 		if err != nil {
 			fatal(err.Error())
 		}
-		if len(optset.Args()) > 0 {
+		if len(o.Args()) > 0 {
 			fatal("there should be no arguments, commands are read from stdin")
 		}
 	}

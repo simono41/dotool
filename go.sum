@@ -1,4 +1,4 @@
-git.sr.ht/~geb/opt v0.0.0-20221207200434-dad26d091d71 h1:jh3Ite7R1ZvdLt6j52e4njO2SS/z5dWOLXllw7inalc=
-git.sr.ht/~geb/opt v0.0.0-20221207200434-dad26d091d71/go.mod h1:S6h1g8P7DyG7i7YIHZ5IpYbC6lzZB9DYIEl8PyXOmsg=
-github.com/bendahl/uinput v1.6.0 h1:fM6r3OSC17rHh758mizKjSBuqi+XinhiGd4N3pWvZiI=
-github.com/bendahl/uinput v1.6.0/go.mod h1:Np7w3DINc9wB83p12fTAM3DPPhFnAKP0WTXRqCQJ6Z8=
+git.sr.ht/~geb/opt v0.0.0-20230911153257-e72225a1933c h1:gIC1gnCgoasPHks1x6MB+bgDmIWMxKc5HIJPJrsV5Ck=
+git.sr.ht/~geb/opt v0.0.0-20230911153257-e72225a1933c/go.mod h1:S6h1g8P7DyG7i7YIHZ5IpYbC6lzZB9DYIEl8PyXOmsg=
+github.com/bendahl/uinput v1.6.2 h1:tIz52QyKDx1i1nObUkts3AZa/bULfLhPA5a+xKGlRPI=
+github.com/bendahl/uinput v1.6.2/go.mod h1:Np7w3DINc9wB83p12fTAM3DPPhFnAKP0WTXRqCQJ6Z8=
