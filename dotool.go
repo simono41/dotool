@@ -18,7 +18,7 @@ import (
 var Version string
 
 func usage() {
-	fmt.Println(`dotool reads actions from stdin and simulates keyboard/mouse input using uinput.
+	fmt.Println(`dotool reads actions from stdin and simulates input using uinput.
 
 The supported actions are:
     key CHORD...
@@ -37,7 +37,7 @@ The supported actions are:
     typedelay MILLISECONDS
     typehold MILLISECONDS
 
---keyboard-name=NAME Specify the name to give the virtual keyboard device.
+--keyboard-name=NAME Specify the name to give the keyboard device.
 --list-keys          Print the possible Linux keys and exit.
 --list-x-keys        Print the possible XKB keys and exit.
 --version            Print the version and exit.
