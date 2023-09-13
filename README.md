@@ -35,7 +35,7 @@ dotool was written for [Numen](https://numenvoice.org), which has a
 [chat on Matrix](https://matrix.to/#/#numen:matrix.org) you're welcome to join.
 
 You can also send questions or patches by composing an email to
-[~geb/public-inbox@lists.sr.ht](https://lists.sr.ht/~geb/public-inbox).
+[~geb/numen@lists.sr.ht](https://lists.sr.ht/~geb/numen).
 
 ## Support My Work 👀
 
