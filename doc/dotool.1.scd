@@ -121,7 +121,7 @@ behind the scenes, for example:
 
 This greets the world:
 
-	*echo 'type Sup, Lads!' | dotool*
+	*echo type hi | dotool*
 
 This screams for roughly three seconds:
 
