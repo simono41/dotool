@@ -30,8 +30,8 @@ The supported actions are:
     buttonup left/middle/right
     wheel AMOUNT
     hwheel AMOUNT
-    mouseto X Y
-    mousemove X Y
+    mouseto X Y  (where X and Y are percentages between 0.0 and 1.0)
+    mousemove X Y  (where X and Y are amounts to move)
     keydelay MILLISECONDS
     keyhold MILLISECONDS
     typedelay MILLISECONDS
