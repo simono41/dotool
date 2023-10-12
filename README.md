@@ -1,8 +1,7 @@
 # dotool
 
 dotool reads actions from stdin and simulates keyboard/mouse input using
-Linux's uinput module. It works system-wide, including in X11, Wayland
-and TTYs.
+Linux's uinput module. It works systemwide and supports keyboard layouts.
 
 ## Install From Packages
 

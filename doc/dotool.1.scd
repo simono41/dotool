@@ -34,9 +34,8 @@ and then it's foolproof to reboot to make the group and rule effective.
 *dotool* may type gobbledygook if it's simulating keycodes for a different
 keyboard layout than your environment is expecting.
 
-You can have *dotool* simulate keycodes for whatever layout by setting the
-environment variables *DOTOOL_XKB_LAYOUT* and *DOTOOL_XKB_VARIANT*. For
-example:
+You can specify the layout with the environment variables *DOTOOL_XKB_LAYOUT*
+and *DOTOOL_XKB_VARIANT*. For example:
 
 	*echo type azerty | DOTOOL_XKB_LAYOUT=fr dotool*
 
