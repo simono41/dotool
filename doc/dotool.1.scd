@@ -39,15 +39,16 @@ and *DOTOOL_XKB_VARIANT*. For example:
 
 	*echo type azerty | DOTOOL_XKB_LAYOUT=fr dotool*
 
+You can also specify the name to give the virtual keyboard with the environment
+variable *DOTOOL_KEYBOARD_NAME*, which can be useful making rules for your
+environment.
+
 Currently the *type* action has only heuristic support for dead keys.
 
 # OPTIONS
 
 *-h*, *--help*
 	Print help and exit.
-
-*--keyboard-name=*_NAME_
-	Specify the name to give the virtual keyboard device.
 
 *--list-keys*
 	Print the possible Linux keys and exit.

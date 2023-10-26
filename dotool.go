@@ -37,10 +37,9 @@ The supported actions are:
     typedelay MILLISECONDS
     typehold MILLISECONDS
 
---keyboard-name=NAME Specify the name to give the keyboard device.
---list-keys          Print the possible Linux keys and exit.
---list-x-keys        Print the possible XKB keys and exit.
---version            Print the version and exit.
+--list-keys    Print the possible Linux keys and exit.
+--list-x-keys  Print the possible XKB keys and exit.
+--version      Print the version and exit.
 
 See 'man dotool' for the documentation.`)
 }
@@ -230,7 +229,6 @@ func main() {
 		initKeys(keymap)
 	}
 
-	keyboardName := []byte("dotool keyboard")
 	{
 		o := opt.NewOptSet()
 
@@ -240,11 +238,6 @@ func main() {
 			panic("unreachable")
 		})
 		o.Alias("h", "help")
-
-		o.Func("keyboard-name", func(s string) error {
-			keyboardName = []byte(s)
-			return nil
-		})
 
 		o.FlagFunc("list-keys", func() error {
 			listKeys(keymap, LinuxKeys)
@@ -273,6 +266,10 @@ func main() {
 		}
 	}
 
+	keyboardName := []byte(os.Getenv("DOTOOL_KEYBOARD_NAME"))
+	if len(keyboardName) == 0 {
+		keyboardName = []byte("dotool keyboard")
+	}
 	keyboard, err := uinput.CreateKeyboard("/dev/uinput", keyboardName)
 	if err != nil {
 		fatal(err.Error())
