@@ -2,14 +2,32 @@
 
 Notable changes to dotool will be documented in this file.
 
+## [1.4](https://git.sr.ht/~geb/dotool/refs/1.4)
+
+### Added
+
+- A manpage, requiring scdoc.
+- Heuristic support for dead keys.
+- Support for altgr.
+- $DOTOOL_KEYBOARD_NAME to set the virtual keyboard's name.
+- More verbose --list-keys output.
+
+### Changed
+
+- Replaced ./install.sh with ./build.sh.
+
+### Fixed
+
+- Now prefers the fewest modifiers for simulating keys.
+
 ## [1.3](https://git.sr.ht/~geb/dotool/refs/1.3)
 
-## Added
+### Added
 
 - Support for keyboard layouts.
 - hwheel for horizontal scrolling.
 
-## Changed
+### Changed
 
 - Now depends on the xkbcommon library.
 - XKB key names are now case-sensitive.
