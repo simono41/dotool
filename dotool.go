@@ -62,6 +62,8 @@ func log(err error) {
 type Chord struct {
 	Super, AltGr, Ctrl, Alt, Shift bool
 	Key int
+
+	level uint32 // just for initKeys
 }
 
 func parseChord(keymap *xkb.Keymap, chord string) (Chord, error) {

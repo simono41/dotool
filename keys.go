@@ -607,11 +607,14 @@ var DeadKeyResults = []DeadKeyResult{
 	{"dead_tilde", "Y", 'Ỹ'},
 }
 
-func newChord(keymap *xkb.Keymap, mask, code uint32) Chord{
+func newChord(keymap *xkb.Keymap, code, level uint32) Chord {
 	altGrMask := uint32(1) << keymap.ModGetIndex("Mod5")
 	ctrlMask := uint32(1) << keymap.ModGetIndex(xkb.ModNameCtrl)
 	altMask := uint32(1) << keymap.ModGetIndex(xkb.ModNameAlt)
 	shiftMask := uint32(1) << keymap.ModGetIndex(xkb.ModNameShift)
+
+	// TODO support layouts other than 0
+	mask := keymap.KeyGetMod(code, 0, level)
 	return Chord{
 		false,
 		(mask & altGrMask) != 0,
@@ -619,6 +622,7 @@ func newChord(keymap *xkb.Keymap, mask, code uint32) Chord{
 		(mask & altMask) != 0,
 		(mask & shiftMask) != 0,
 		int(code) - 8,
+		level,
 	}
 }
 
@@ -628,16 +632,16 @@ func initKeys(keymap *xkb.Keymap) {
 		numLevels := keymap.NumLevelsForKey(code, 0)
 		for level := uint32(0); level < numLevels; level++ {
 			for _, sym := range keymap.KeyGetSymsByLevel(code, 0, level) {
-				chord := newChord(keymap, keymap.KeyGetMod(code, 0, level), code)
+				chord := newChord(keymap, code, level)
 				for name, s := range linuxXSyms {
 					if s == sym {
-						if _, ok := LinuxKeys[name]; !ok {
+						if l, ok := LinuxKeys[name]; !ok || level < l.level {
 							LinuxKeys[name] = chord
 						}
 					}
 				}
 				name := xkb.KeysymGetName(sym)
-				if _, ok := XKeys[name]; !ok {
+				if x, ok := XKeys[name]; !ok || level < x.level {
 					XKeys[name] = chord
 				}
 			}
@@ -657,7 +661,7 @@ func getChord(keymap *xkb.Keymap, keysym uint32) Chord {
 		for level := uint32(0); level < numLevels; level++ {
 			for _, sym := range keymap.KeyGetSymsByLevel(code, 0, level) {
 				if sym == keysym {
-					return newChord(keymap, keymap.KeyGetMod(code, 0, level), code)
+					return newChord(keymap, code, level)
 				}
 			}
 		}
