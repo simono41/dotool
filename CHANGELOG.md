@@ -2,6 +2,12 @@
 
 Notable changes to dotool will be documented in this file.
 
+## [1.5](https://git.sr.ht/~geb/dotool/refs/1.5)
+
+### Fixed
+
+- The selecting of the fewest modifiers for simulating keys.
+
 ## [1.4](https://git.sr.ht/~geb/dotool/refs/1.4)
 
 ### Added
@@ -18,7 +24,7 @@ Notable changes to dotool will be documented in this file.
 
 ### Fixed
 
-- Now prefers the fewest modifiers for simulating keys.
+- Now prefers the fewest modifiers for simulating keys. (UPDATE: see 1.5)
 
 ## [1.3](https://git.sr.ht/~geb/dotool/refs/1.3)
 

@@ -1,6 +1,6 @@
 #!/bin/sh
 # ./build.sh ['install']
-: "${DOTOOL_VERSION=$(git describe --long --abbrev=12 --tags --dirty 2>/dev/null || echo 1.4)}"
+: "${DOTOOL_VERSION=$(git describe --long --abbrev=12 --tags --dirty 2>/dev/null || echo 1.5)}"
 : "${DOTOOL_DESTDIR=}"
 : "${DOTOOL_BINDIR=usr/local/bin}"
 : "${DOTOOL_UDEV_RULES_DIR=etc/udev/rules.d}"
